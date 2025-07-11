@@ -1,0 +1,11 @@
+streamlit
+pandas
+plotly
+requests
+websocket-client
+pyjwt
+sqlalchemy
+streamlit_authenticator
+PyYAML
+passlib
+yfinance

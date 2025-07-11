@@ -1,0 +1,26 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: indexiq_cookie
+credentials:
+  usernames:
+    Tej_Kumar:
+      email: mrtejkumarsahu@gmail.com
+      name: Tej_Kumar
+      password: $2b$12$EKSO8b460weG.UPfFj67VOiZKDfiJPrB4c84LVtN/g2cRmLJETNh6
+    Tej_Kumar1:
+      email: mrtejkumarsahu@gmail.com
+      name: Tej Kumar Sahu
+      password: $2b$12$7.GMx6tBQEvuY1H4SqMYMuIOOFWBrrBKsJBeRdlox2t0ASyZSXaWm
+      registered_at: '2025-07-11 02:09:01'
+    Tej_Kumar_sahu:
+      email: iamtejkumarsahu@gmail.com
+      name: Tej_Kumar_sahu
+      password: $2b$12$vwqibD/EwJdPHnmLsORtDOwpVvJQmiz.7.lKm3yJPgXBkUPuNOLTG
+    admin:
+      email: admin@indexiq.app
+      name: Admin User
+      password: admin
+preauthorized:
+  emails:
+  - admin@indexiq.app

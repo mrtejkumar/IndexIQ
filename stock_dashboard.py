@@ -18,14 +18,14 @@ st.set_page_config(
 st.markdown("""
 <style>
     .metric-container {
-        background-color: #f0f2f6;
+        background-color: #566cba;
         padding: 1rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
     }
     .positive { color: #00C851; }
     .negative { color: #ff4444; }
-    .stSelectbox > div > div > div > div { background-color: #ffffff; }
+    .stSelectbox > div > div > div > div { background-color: #7a1515; }
 </style>
 """, unsafe_allow_html=True)
 
