@@ -1,10 +1,46 @@
 import streamlit as st
 import pandas as pd
 import plotly.graph_objs as go
-
+import time
 from core.portfolio import get_user_holdings, calculate_portfolio_metrics
 from core.angel_api import get_live_price
 
+from core.logo import show_logo_sidebar_top 
+from core.search_bar import setup_stock_search_bar
+
+
+
+# Show Logo at Top of Sidebar
+show_logo_sidebar_top()
+
+# -------------------------
+# Redirect if Not Logged In
+# -------------------------
+if not st.session_state.get("authenticated"):
+    st.warning("🔒 You are not logged in. Redirecting to login page in 10 seconds...")
+
+    if st.button("🔑 Go to Login Now"):
+        st.switch_page("Welcome_Trader.py")
+
+    with st.empty():
+        for seconds in range(10, 0, -1):
+            st.info(f"Redirecting in {seconds} seconds...")
+            time.sleep(1)
+        st.switch_page("Welcome_Trader.py")
+# -------------------------
+# Sidebar Logout Button
+# -------------------------
+with st.sidebar:
+    if st.session_state.get("authenticated"):
+        if st.button("🚪 Logout"):
+            username = st.session_state.get("username", "User")
+            for key in ["authenticated", "user_id", "username", "show_register"]:
+                st.session_state.pop(key, None)
+            st.success(f"✅ {username}, you have been logged out successfully.")
+            time.sleep(5)
+            st.switch_page("Welcome_Trader.py")
+#adding search bar
+setup_stock_search_bar(location="sidebar", show_history=True)
 # Page setup
 st.set_page_config(page_title="Portfolio - IndexIQ", layout="wide")
 st.title("💼 My Portfolio")
@@ -16,7 +52,6 @@ if not holdings:
     st.warning("No holdings found. Start paper trading to build your portfolio.")
     st.stop()
 
-# Prepare display table
 portfolio_data = []
 
 total_value = 0
@@ -24,8 +59,7 @@ total_invested = 0
 
 for symbol, data in holdings.items():
     live_price_data = get_live_price(symbol)
-    # Extract the actual price from the dictionary returned by get_live_price
-    live_price = live_price_data['price']  # This is the key change
+    live_price = live_price_data['price']
     quantity = data["quantity"]
     avg_price = data["avg_price"]
     current_value = live_price * quantity

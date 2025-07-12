@@ -1,34 +1,59 @@
-# indexiq_dashboard.py
+# home.py
 import streamlit as st
 import yfinance as yf
 import plotly.graph_objs as go
 import pandas as pd
 import random
-
-# -------------------------
+import os
+import time
+from core.logo import show_logo_sidebar_top
+from core.search_bar import setup_stock_search_bar
 # Set Page Config
-# -------------------------
 st.set_page_config(page_title="IndexIQ Dashboard", layout="wide")
 
+# Show Logo at Top of Sidebar
+show_logo_sidebar_top()
+
+# -------------------------
+# Redirect if Not Logged In
+# -------------------------
+if not st.session_state.get("authenticated"):
+    st.warning("🔒 You are not logged in. Redirecting to login page in 10 seconds...")
+
+    if st.button("🔑 Go to Login Now"):
+        st.switch_page("Welcome_Trader.py")
+
+    with st.empty():
+        for seconds in range(10, 0, -1):
+            st.info(f"Redirecting in {seconds} seconds...")
+            time.sleep(1)
+        st.switch_page("Welcome_Trader.py")
+
+# -------------------------
+# Sidebar Logout Button
+# -------------------------
+with st.sidebar:
+    if st.session_state.get("authenticated"):
+        if st.button("🚪 Logout"):
+            username = st.session_state.get("username", "User")
+            for key in ["authenticated", "user_id", "username", "show_register"]:
+                st.session_state.pop(key, None)
+            st.success(f"✅ {username}, you have been logged out successfully.")
+            time.sleep(1)
+            st.switch_page("Welcome_Trader.py")
+
+#
+setup_stock_search_bar(location="sidebar", show_history=True)
 # -------------------------
 # Header
 # -------------------------
 st.title("📈 IndexIQ - Smart Market Dashboard")
-st.markdown("A modern, data-driven dashboard with sentiment, prediction & financial insights.Designed by Tej Kumar Sahu")
-
-# -------------------------
-# Sidebar Navigation
-# -------------------------
-# with st.sidebar:
-#     st.header("📂 Navigation")
-#     pages = ["Dashboard", "Portfolio", "Watchlist", "Screener", "Sentiment Analysis", "Predictions", "News"]
-#     selected_page = st.radio("Go to", pages)
+st.markdown("A modern, data-driven dashboard with sentiment, prediction & financial insights. Designed by Tej Kumar Sahu")
 
 # -------------------------
 # Market Overview
 # -------------------------
 st.subheader("🌐 Market Overview with Sentiment")
-
 cols = st.columns(3)
 index_data = {
     "Nifty 50": {"symbol": "^NSEI", "sentiment": random.choice(["Bullish", "Bearish"])},
@@ -40,7 +65,7 @@ for i, (name, info) in enumerate(index_data.items()):
     index = yf.Ticker(info["symbol"])
     df = index.history(period="1d")
     price = df["Close"].iloc[-1]
-    change = df["Close"].iloc[-1] - df["Open"].iloc[-1]
+    change = price - df["Open"].iloc[-1]
     pct_change = (change / df["Open"].iloc[-1]) * 100
     sentiment_color = "green" if info["sentiment"] == "Bullish" else "red"
 
@@ -49,7 +74,7 @@ for i, (name, info) in enumerate(index_data.items()):
         st.markdown(f"Sentiment: **:{sentiment_color}[{info['sentiment']}]**")
 
 # -------------------------
-# Portfolio Performance (Sample Data)
+# Portfolio Performance
 # -------------------------
 st.subheader("📊 Portfolio Performance")
 portfolio_data = pd.DataFrame({
@@ -62,21 +87,20 @@ fig.update_layout(margin=dict(l=10, r=10, t=30, b=10), height=300)
 st.plotly_chart(fig, use_container_width=True)
 
 # -------------------------
-# Sentiment Analysis Summary (Static Example)
+# Sentiment Summary
 # -------------------------
 st.subheader("🧠 Sentiment Analysis (From Social & News)")
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns(2)
 
 with col1:
     st.metric(label="Sentiment Score", value="76%", delta="Bullish")
     st.markdown("Based on Twitter, Reddit & financial news sentiment.")
 with col2:
     st.write("**Trending Keywords**")
-    st.markdown(
-        "`investors` `market` `growth` `earnings` `rise` `outlook` `stock`")
+    st.markdown("`investors` `market` `growth` `earnings` `rise` `outlook` `stock`")
 
 # -------------------------
-# AI Stock Prediction (Sample Data)
+# AI Stock Predictions
 # -------------------------
 st.subheader("🔮 AI Stock Prediction")
 pred_col = st.columns(3)
@@ -91,7 +115,7 @@ for i, pred in enumerate(predictions):
         st.metric(f"{pred['ticker']}", pred["prediction"], help=f"Confidence: {pred['confidence']}")
 
 # -------------------------
-# Financial News (Static Placeholder)
+# News Section
 # -------------------------
 st.subheader("🗞️ Financial News")
 news = [
