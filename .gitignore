@@ -67,4 +67,5 @@ htmlcov/
 .coverage.*
 coverage.xml
 *.cover
-.hypothesis/
+.hypothesis/additional_records
+.streamlit
