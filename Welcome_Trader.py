@@ -41,6 +41,13 @@ if st.session_state.authenticated:
         st.rerun()
     st.stop()
 
+# Add this after imports
+def encode_credentials():
+    # Encoded version of "admin_tej" and "12345678"
+    ENCODED_USERNAME = "YWRtaW5fdGVq"  # base64 encoded "admin_tej"
+    ENCODED_PASSWORD = "MTIzNDU2Nzg="  # base64 encoded "12345678"
+    return ENCODED_USERNAME, ENCODED_PASSWORD
+
 # ----------------------------
 # Login Form
 # ----------------------------
@@ -50,15 +57,31 @@ def show_login_form():
     password = st.text_input("Password", type="password", key="login_pass")
 
     if st.button("Login"):
-        user = authenticate_user(username, password, db)
-        if user:
+        # Check encoded admin credentials
+        encoded_user, encoded_pass = encode_credentials()
+        try:
+            is_admin = (base64.b64encode(username.encode()).decode() == encoded_user and 
+                       base64.b64encode(password.encode()).decode() == encoded_pass)
+        except:
+            is_admin = False
+
+        if is_admin:
             st.session_state.authenticated = True
-            st.session_state.user_id = user.id
-            st.session_state.username = user.username
-            st.success("✅ Login successful!")
+            st.session_state.user_id = -1  # Special admin ID
+            st.session_state.username = username
+            st.success("✅ Admin login successful!")
             st.switch_page("pages/1_Home.py")
         else:
-            st.error("❌ Invalid username or password")
+            # Regular user authentication
+            user = authenticate_user(username, password, db)
+            if user:
+                st.session_state.authenticated = True
+                st.session_state.user_id = user.id
+                st.session_state.username = user.username
+                st.success("✅ Login successful!")
+                st.switch_page("pages/1_Home.py")
+            else:
+                st.error("❌ Invalid username or password")
 
     st.markdown("---")
     if st.button("Don't have an account? Register"):
