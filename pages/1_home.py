@@ -58,8 +58,10 @@ cols = st.columns(3)
 index_data = {
     "Nifty 50": {"symbol": "^NSEI", "sentiment": random.choice(["Bullish", "Bearish"])},
     "Sensex": {"symbol": "^BSESN", "sentiment": random.choice(["Bullish", "Bearish"])},
-    "Nasdaq": {"symbol": "^IXIC", "sentiment": random.choice(["Bullish", "Bearish"])}
+    "Nifty 100": {"symbol": "^CNX100", "sentiment": random.choice(["Bullish", "Bearish"])},
+    # "Nasdaq": {"symbol": "^IXIC", "sentiment": random.choice(["Bullish", "Bearish"])}
 }
+
 
 for i, (name, info) in enumerate(index_data.items()):
     index = yf.Ticker(info["symbol"])

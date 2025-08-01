@@ -5,6 +5,7 @@ import random
 import time
 
 from core.logo import show_logo_sidebar_top  # Ensure logo function is defined properly
+from core.search_bar import setup_stock_search_bar
 
 # -------------------------
 # Redirect if Not Logged In
@@ -58,6 +59,9 @@ def load_stock_data():
     return pd.DataFrame(data)
 
 df = load_stock_data()
+
+#adding search bar
+setup_stock_search_bar(location="sidebar", show_history=True)
 
 # -------------------------
 # Page Configuration

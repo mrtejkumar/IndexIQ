@@ -56,7 +56,7 @@ def show_login_form():
             st.session_state.user_id = user.id
             st.session_state.username = user.username
             st.success("✅ Login successful!")
-            st.switch_page("pages/1_home.py")
+            st.switch_page("pages/1_Home.py")
         else:
             st.error("❌ Invalid username or password")
 

@@ -58,7 +58,7 @@ class OpenRouterAPI:
                 self.base_url, 
                 headers=headers, 
                 json=payload,
-                timeout=30  # Add timeout
+                timeout=30
             )
             
             if response.status_code == 200:

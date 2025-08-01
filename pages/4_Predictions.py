@@ -5,7 +5,7 @@ import pandas as pd
 import time
 import plotly.graph_objects as go
 from core.predictions import get_prediction_for_stock, get_prediction_summary
-
+from core.search_bar import setup_stock_search_bar
 
 from core.logo import show_logo_sidebar_top  # Ensure logo function is defined properly
 
@@ -41,6 +41,8 @@ with st.sidebar:
             st.switch_page("Welcome_Trader.py")
 
 
+#adding search bar
+setup_stock_search_bar(location="sidebar", show_history=True)
 # -------------------------
 # Page Setup
 # -------------------------

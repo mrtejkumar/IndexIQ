@@ -1,9 +1,10 @@
 import requests
 
 # 🚨 Replace this with your OpenRouter API key
-API_KEY = "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"
+API_KEY = "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"
 
 # ✅ Model you're using (this one is fast and free)
+# MODEL_ID = "openai/gpt-3.5-turbo"
 MODEL_ID = "mistralai/mistral-7b-instruct:free"
 
 # 📥 Enter your user question below

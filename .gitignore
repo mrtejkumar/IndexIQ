@@ -69,3 +69,6 @@ coverage.xml
 *.cover
 .hypothesis/additional_records
 .streamlit
+.env
+*.key
+notes.txt

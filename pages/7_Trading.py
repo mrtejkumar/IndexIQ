@@ -5,6 +5,7 @@ import time
 from core.trading import place_order, get_holdings, get_trade_history
 
 from core.logo import show_logo_sidebar_top  # Ensure logo function is defined properly
+from core.search_bar import setup_stock_search_bar
 
 # Show Logo at Top of Sidebar
 show_logo_sidebar_top()
@@ -36,7 +37,8 @@ with st.sidebar:
             time.sleep(1)
             st.switch_page("Welcome_Trader.py")
 
-
+#adding search bar
+setup_stock_search_bar(location="sidebar", show_history=True)
 # -------------------------
 # Page Setup
 # -------------------------
