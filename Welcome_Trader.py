@@ -70,7 +70,7 @@ def show_login_form():
             st.session_state.user_id = -1  # Special admin ID
             st.session_state.username = username
             st.success("✅ Admin login successful!")
-            st.switch_page("pages/1_Home.py")
+            st.switch_page("pages/1_Dashboard.py")
         else:
             # Regular user authentication
             user = authenticate_user(username, password, db)
@@ -79,7 +79,7 @@ def show_login_form():
                 st.session_state.user_id = user.id
                 st.session_state.username = user.username
                 st.success("✅ Login successful!")
-                st.switch_page("pages/1_Home.py")
+                st.switch_page("pages/1_Dashboard.py")
             else:
                 st.error("❌ Invalid username or password")
 
